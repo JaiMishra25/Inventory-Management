@@ -2,14 +2,30 @@
 
 A REST API backend application for managing inventory for small businesses. Built with FastAPI, SQLAlchemy, and SQLite.
 
+> **Note**: This project was developed with the assistance of AI tools to help refine APIs, fix implementation issues, choose the most suitable tech stack, and ensure best practices throughout the development process. The AI assistance was particularly valuable in:
+> - **API Design**: Structuring RESTful endpoints with proper HTTP status codes and error handling
+> - **Tech Stack Selection**: Choosing FastAPI for backend (modern, fast, auto-documentation) and React with Tailwind CSS for frontend (responsive, beautiful UI)
+> - **Security Implementation**: Implementing JWT authentication, password hashing, and input validation
+> - **Database Schema**: Designing efficient database models with proper relationships and constraints
+> - **Frontend Architecture**: Creating a modern, responsive UI with proper state management and user experience
+> - **Error Handling**: Comprehensive error handling and user feedback throughout the application
+
 ## Features
 
+### Backend
 - **User Authentication**: JWT-based authentication with secure password hashing
 - **Product Management**: Add, update, and retrieve products with inventory tracking
 - **RESTful APIs**: Clean, well-documented REST endpoints
 - **Database**: SQLite database with SQLAlchemy ORM
 - **Documentation**: Auto-generated OpenAPI/Swagger documentation
 - **Security**: JWT tokens, password hashing, and input validation
+
+### Frontend
+- **Modern UI**: Beautiful, responsive React interface with Tailwind CSS
+- **User Dashboard**: Intuitive product management interface
+- **Real-time Updates**: Live inventory tracking and updates
+- **Authentication**: Secure login/logout functionality
+- **Mobile Responsive**: Works seamlessly on all devices
 
 ## API Endpoints
 
@@ -28,6 +44,8 @@ A REST API backend application for managing inventory for small businesses. Buil
 ### Prerequisites
 - Python 3.8 or higher
 - pip (Python package installer)
+- Node.js 16 or higher (for frontend)
+- npm or yarn (for frontend dependencies)
 
 ### Installation
 
@@ -53,12 +71,20 @@ A REST API backend application for managing inventory for small businesses. Buil
    pip install -r requirements.txt
    ```
 
-4. **Run the application**
+4. **Run the backend application**
    ```bash
    python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
    ```
 
-5. **Access the API**
+5. **Set up the frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm start
+   ```
+
+6. **Access the application**
+   - Frontend: `http://localhost:3000`
    - API Base URL: `http://localhost:8080`
    - Interactive API Documentation: `http://localhost:8080/docs`
    - Alternative Documentation: `http://localhost:8080/redoc`
@@ -186,13 +212,23 @@ The API provides comprehensive error handling with appropriate HTTP status codes
 ### Project Structure
 ```
 inventory-management/
-├── app/
+├── app/                 # Backend application
 │   ├── __init__.py
 │   ├── main.py          # FastAPI application
 │   ├── database.py      # Database configuration
 │   ├── models.py        # SQLAlchemy models
 │   ├── schemas.py       # Pydantic schemas
 │   └── auth.py          # Authentication utilities
+├── frontend/            # React frontend application
+│   ├── public/
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── pages/       # Page components
+│   │   ├── services/    # API services
+│   │   ├── hooks/       # Custom hooks
+│   │   └── utils/       # Utility functions
+│   ├── package.json
+│   └── tailwind.config.js
 ├── requirements.txt     # Python dependencies
 ├── test_api.py         # API test script
 └── README.md           # This file
