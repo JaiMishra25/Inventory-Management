@@ -2,8 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# SQLite database URL
-SQLALCHEMY_DATABASE_URL = "sqlite:///./inventory.db"
+import os
+
+# SQLite database URL - configurable for Docker vs local development
+DATABASE_PATH = os.getenv("DATABASE_PATH", "./inventory.db")
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 
 # Create engine
 engine = create_engine(

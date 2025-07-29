@@ -1,7 +1,10 @@
+import os
 from datetime import timedelta
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException, status, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from app.database import get_db, engine
 from app.models import Base, User, Product
@@ -36,15 +39,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files if running in Docker
+if os.path.exists("frontend/build"):
+    app.mount("/static", StaticFiles(directory="frontend/build/static"), name="static")
+
 @app.get("/")
 async def root():
-    """Root endpoint with API information."""
-    return {
-        "message": "Inventory Management Tool API",
-        "version": "1.0.0",
-        "docs": "/docs",
-        "redoc": "/redoc"
-    }
+    """Root endpoint - serves frontend in Docker, API info in development."""
+    # Serve frontend if running in Docker, otherwise return API info
+    if os.path.exists("frontend/build/index.html"):
+        return FileResponse("frontend/build/index.html")
+    else:
+        return {
+            "message": "Inventory Management Tool API",
+            "version": "1.0.0",
+            "docs": "/docs",
+            "redoc": "/redoc"
+        }
+
+@app.get("/manifest.json")
+async def serve_manifest():
+    """Serve manifest.json for frontend."""
+    if os.path.exists("frontend/build/manifest.json"):
+        return FileResponse("frontend/build/manifest.json")
+    else:
+        return {"error": "Manifest not found"}
 
 @app.post("/register", response_model=dict, status_code=201)
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):

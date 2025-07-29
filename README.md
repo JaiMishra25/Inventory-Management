@@ -39,6 +39,37 @@ A REST API backend application for managing inventory for small businesses. Buil
 - `GET /products/{id}` - Get a specific product (requires authentication)
 - `PUT /products/{id}/quantity` - Update product quantity (requires authentication)
 
+## 🚀 Quick Start
+
+### Option 1: Full Application (Frontend + Backend) - Recommended
+
+For the complete application with frontend interface:
+
+```bash
+# 1. Start Backend
+python run.py
+
+# 2. Start Frontend (in a new terminal)
+cd frontend && npm start
+
+# Access points:
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:8080
+# API Docs: http://localhost:8080/docs
+```
+
+### Option 2: Backend Only (Docker)
+
+For backend API server only:
+
+```bash
+docker-compose up --build
+
+# Access points:
+# Backend API: http://localhost:8080
+# API Docs: http://localhost:8080/docs
+```
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -46,6 +77,7 @@ A REST API backend application for managing inventory for small businesses. Buil
 - pip (Python package installer)
 - Node.js 16 or higher (for frontend)
 - npm or yarn (for frontend dependencies)
+- Docker (optional, for backend-only deployment)
 
 ### Installation
 
@@ -73,10 +105,10 @@ A REST API backend application for managing inventory for small businesses. Buil
 
 4. **Run the backend application**
    ```bash
-   python -m uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+   python run.py
    ```
 
-5. **Set up the frontend**
+5. **Set up the frontend (for full application)**
    ```bash
    cd frontend
    npm install
@@ -84,10 +116,39 @@ A REST API backend application for managing inventory for small businesses. Buil
    ```
 
 6. **Access the application**
-   - Frontend: `http://localhost:3000`
-   - API Base URL: `http://localhost:8080`
-   - Interactive API Documentation: `http://localhost:8080/docs`
+   - **Full Application**: Frontend at `http://localhost:3000`
+   - **Backend API**: `http://localhost:8080`
+   - **API Documentation**: `http://localhost:8080/docs`
+   - **Alternative Documentation**: `http://localhost:8080/redoc`
+
+### Docker Deployment (Backend Only)
+
+**Note**: Docker runs the **backend API server** only. For the full frontend experience, use the local development setup above.
+
+1. **Build and run with Docker Compose:**
+   ```bash
+   docker-compose up --build
+   ```
+
+2. **Or build and run with Docker directly:**
+   ```bash
+   # Build the image
+   docker build -t inventory-management .
+   
+   # Run the container
+   docker run -p 8080:8080 -e PORT=8080 inventory-management
+   ```
+
+3. **Access the backend:**
+   - Backend API: `http://localhost:8080`
+   - API Documentation: `http://localhost:8080/docs`
    - Alternative Documentation: `http://localhost:8080/redoc`
+
+**What Docker provides:**
+- ✅ Backend API server
+- ✅ Database with persistence
+- ✅ API documentation
+- ❌ Frontend interface (use local development for this)
 
 ## Database Schema
 
@@ -231,6 +292,11 @@ inventory-management/
 │   └── tailwind.config.js
 ├── requirements.txt     # Python dependencies
 ├── test_api.py         # API test script
+├── Dockerfile          # Docker configuration
+├── Dockerfile.prod     # Production Docker configuration
+├── docker-compose.yml  # Docker Compose configuration
+├── .dockerignore       # Docker ignore file
+├── docker-run.sh       # Docker deployment script
 └── README.md           # This file
 ```
 
